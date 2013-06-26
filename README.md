@@ -7,7 +7,7 @@ Annotate a class with `@RunWith(BundleTestSuite.class)` and `@TestBundles({"bund
 When you run this class, it will run all the tests in all the bundles.
 A test class is identified by its name. All public classes whose names end with 'Test' are considered test classes.
 
-Fir example:
+For example:
 ````Java
 @RunWith( BundleTestSuite.class )
 @TestBundles( { "org.example.bundle1", "org.example.bundle2" } )
@@ -20,7 +20,9 @@ The p2 repository
 
 > `http://rherrmann.github.com/osgi-testsuite/repository`
 
-contains a feature with a single bundle. Add this to your target platform in order to use the OSGi Test Suite.
+contains a feature with a single bundle. Add this to your target platform.
+
+In order to use the BundleTestSuite, Require-Bundle or Package-Import the bundle/package com.codeaffine.osgi.testsuite.
 
 ## Lincense
 The code is published under the terms of the [Eclipse Public License, version 1.0](http://www.eclipse.org/legal/epl-v10.html).
