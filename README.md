@@ -1,6 +1,11 @@
 # Automated OSGi Test Suite
 
-The OSGi Test Suite runs all JUnit tests in a given list of bundles.
+The OSGi Test Suite is a JUnit test runner that runs all tests in a given list of bundles.
+
+## Usage
+Annotate a class with `@RunWith(BundleTestSuite.class)` and `@TestBundles({"bundle.1", ...})`. 
+When you run this class, it will run all the tests in all the bundles.
+A test class is identified by its name. All public classes whose names end with 'Test' are considered test classes.
 
 ## Example
 ````Java
