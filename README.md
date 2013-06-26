@@ -15,5 +15,12 @@ public class MasterTestSuite {
 }
 ````
 
+## Download & Integration
+The p2 repository
+
+> `http://rherrmann.github.com/osgi-testsuite/repository`
+
+contains a feature with a single bundle. Add this to your target platform in order to use the OSGi Test Suite.
+
 ## Lincense
 The code is published under the terms of the [Eclipse Public License, version 1.0](http://www.eclipse.org/legal/epl-v10.html).
