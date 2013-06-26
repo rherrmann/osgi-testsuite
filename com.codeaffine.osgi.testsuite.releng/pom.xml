@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2012, 2013 Rüdiger Herrmann.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+
+  Contributors:
+     Rüdiger Herrmann - initial implementation
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>Automated OSGi Test Suite</name>
+
+  <groupId>com.codeaffine.osgi.testsuite</groupId>
+  <artifactId>com.codeaffine.osgi.testsuite.parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <tycho-version>0.18.0</tycho-version>
+    <surefire-version>2.15</surefire-version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <modules>
+    <module>feature</module>
+    <module>repository</module>
+    <module>../com.codeaffine.osgi.testsuite</module>
+    <module>../com.codeaffine.osgi.testsuite.test</module>
+  </modules>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>maven.eclipse.org</id>
+      <url>http://maven.eclipse.org/nexus/content/repositories/milestone-indigo</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <plugins>
+
+			<plugin>
+			   <groupId>org.eclipse.tycho</groupId>
+			   <artifactId>target-platform-configuration</artifactId>
+			   <version>${tycho-version}</version>
+			   <configuration>
+			      <target>
+			         <artifact>
+			            <groupId>com.codeaffine.osgi.testsuite</groupId>
+			            <artifactId>com.codeaffine.osgi.testsuite.parent</artifactId>
+                  <version>1.0.0-SNAPSHOT</version>
+                  <classifier>equinox</classifier>
+			         </artifact>
+			      </target>
+			   </configuration>
+			</plugin>
+			
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <format>yyyyMMdd-HHmm</format>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>plugin-source</id>
+            <goals>
+              <goal>plugin-source</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire-version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>${surefire-version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>test</id>
+            <phase>test</phase>
+            <configuration>
+              <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
+              <includes>
+                <include>**/*Test.java</include>
+              </includes>
+              <excludes>
+                <!-- override default excludes to exclude nothing -->
+              </excludes>
+              <runOrder>random</runOrder>
+            </configuration>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+</project>
