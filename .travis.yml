@@ -1,0 +1,3 @@
+script:
+  - cd com.codeaffine.osgi.testsuite.releng
+  - mvn clean install
