@@ -40,8 +40,13 @@ import org.junit.runners.model.InitializationError;
  *   }
  * </pre>
  * </p>
+ * <p>
+ * An <code>InitializationError</code> is thrown if the <code>@TestBundles</code> annotation is
+ * missing or if it list bundles that cannot be found.
+ * </p>
  *
  * @see RunWith
+ * @see TestBundles
  * @since 1.0
  */
 public class BundleTestSuite extends Suite {
