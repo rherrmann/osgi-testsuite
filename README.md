@@ -18,7 +18,7 @@ public class MasterTestSuite {
 ## Download & Integration
 The p2 repository
 
-> `http://rherrmann.github.com/osgi-testsuite/repository`
+> `http://rherrmann.github.io/osgi-testsuite/repository`
 
 contains a feature with a single bundle. Add this to your target platform.
 
