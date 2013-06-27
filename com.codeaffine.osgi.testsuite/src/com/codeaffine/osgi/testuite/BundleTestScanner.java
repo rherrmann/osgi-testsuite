@@ -22,7 +22,6 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.wiring.BundleWiring;
 
 class BundleTestScanner {
-
   private static final String DOT_CLASS = ".class";
 
   private final String[] bundleSymbolicNames;
