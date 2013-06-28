@@ -24,7 +24,6 @@ import org.osgi.framework.wiring.BundleWiring;
 
 
 class ClassPathScanner {
-  private static final String[] DEFAULT_CLASS_PATH_ROOT = new String[] { "/" };
   private static final String DOT_CLASS = ".class";
 
   private final Bundle bundle;
@@ -70,14 +69,15 @@ class ClassPathScanner {
   }
 
   private String[] getClassPathRoots() {
-    String[] result = DEFAULT_CLASS_PATH_ROOT;
+    Collection<String> classPathRoots = new LinkedList<String>();
     if( !devProperties.isEmpty() ) {
-      Collection<String> classPathRoots = new LinkedList<String>();
       appendClassPathRoots( classPathRoots, devProperties.getProperty( bundle.getSymbolicName() ) );
       appendClassPathRoots( classPathRoots, devProperties.getProperty( "*" ) );
-      result = classPathRoots.toArray( new String[ classPathRoots.size() ] );
     }
-    return result;
+    if( classPathRoots.isEmpty() ) {
+      classPathRoots.add( "/" );
+    }
+    return classPathRoots.toArray( new String[ classPathRoots.size() ] );
   }
 
   private Class<?> loadClass( String className ) throws InitializationError {

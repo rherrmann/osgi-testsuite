@@ -44,6 +44,17 @@ public class ClassPathScannerTest {
   }
 
   @Test
+  public void testScanWithNonMatchingDevProperties() throws Exception {
+    addTestResource( bundle, FooTest.class.getName(), FooTest.class );
+    devProperties.setProperty( "some.bogus.bundle.name", "bin" );
+
+    ClassPathScanner scanner = new ClassPathScanner( bundle, devProperties, PATTERN );
+    Class<?>[] classes = scanner.scan();
+
+    assertArrayEquals( new Class[] { FooTest.class }, classes );
+  }
+
+  @Test
   public void testScanWithBundleSpecificClassPathRoot() throws Exception {
     addTestResource( bundle, "bin/" + FooTest.class.getName(), FooTest.class );
     devProperties.setProperty( bundle.getSymbolicName(), "bin" );
