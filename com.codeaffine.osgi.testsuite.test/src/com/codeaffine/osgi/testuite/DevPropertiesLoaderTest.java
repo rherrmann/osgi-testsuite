@@ -11,7 +11,8 @@
 package com.codeaffine.osgi.testuite;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,25 +36,15 @@ public class DevPropertiesLoaderTest {
   private BundleContext bundleContext;
 
   @Test
-  public void testLoadWithoutConfigurationAreaProperty() {
+  public void testLoadWithoutOsgiDevProperty() {
     Properties properties = loadDevProperties();
 
     assertEquals( 0, properties.size() );
   }
 
   @Test
-  public void testLoadWithNoneConfigurationArea() {
-    when( bundleContext.getProperty( anyString() ) ).thenReturn( "@none" );
-
-    Properties properties = loadDevProperties();
-
-    assertEquals( 0, properties.size() );
-  }
-
-  @Test
-  public void testLoadWithExistingConfigurationArea() throws IOException {
-    File directory = tempFolder.getRoot();
-    setConfigurationArea( directory );
+  public void testLoadWithEmptyOsgiDevProperty() {
+    when( bundleContext.getProperty( "osgi.dev" ) ).thenReturn( "" );
 
     Properties properties = loadDevProperties();
 
@@ -61,12 +52,24 @@ public class DevPropertiesLoaderTest {
   }
 
   @Test
-  public void testLoadWithDevPropertiesInConfigurationArea() throws IOException {
-    File directory = tempFolder.getRoot();
+  public void testLoadWithNonExistingDevPropertiesFile() throws IOException {
+    setOsgiDevProperty();
+    DevPropertiesLoader loader = new DevPropertiesLoader( bundleContext );
+
+    try {
+      loader.load();
+      fail();
+    } catch( RuntimeException expected ) {
+      assertTrue( expected.getCause() instanceof IOException );
+    }
+  }
+
+  @Test
+  public void testLoadWithDevProperties() throws IOException {
     Properties properties = new Properties();
     properties.put( "foo", "bar" );
-    storeDevProperties( directory, properties );
-    setConfigurationArea( directory );
+    storeDevProperties( properties );
+    setOsgiDevProperty();
 
     Properties loadedProperties = loadDevProperties();
 
@@ -92,14 +95,14 @@ public class DevPropertiesLoaderTest {
     return loader.load();
   }
 
-  private void setConfigurationArea( File directory ) throws IOException {
-    String configurationArea = "file:///" + directory.getCanonicalPath();
-    when( bundleContext.getProperty( anyString() ) ).thenReturn( configurationArea );
+  private void setOsgiDevProperty() throws IOException {
+    File file = new File( tempFolder.getRoot(), "dev.properties" );
+    when( bundleContext.getProperty( "osgi.dev" ) ).thenReturn( file.toURI().toURL().toString() );
   }
 
-  private static void storeDevProperties( File directory, Properties properties ) throws IOException
+  private void storeDevProperties( Properties properties ) throws IOException
   {
-    File file = new File( directory, "dev.properties" );
+    File file = new File( tempFolder.getRoot(), "dev.properties" );
     OutputStream outputStream = new FileOutputStream( file );
     properties.store( outputStream, "" );
     outputStream.close();

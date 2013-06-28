@@ -10,14 +10,9 @@
  ******************************************************************************/
 package com.codeaffine.osgi.testuite;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -34,46 +29,24 @@ class DevPropertiesLoader {
   }
 
   Properties load() {
-    File configurationArea = getConfigurationArea();
-    if( configurationArea != null ) {
-      File file = new File( configurationArea, "dev.properties" );
-      load( file );
+    if( bundleContext != null ) {
+      String osgiDevProperty = bundleContext.getProperty( "osgi.dev" );
+      if( osgiDevProperty != null && osgiDevProperty.length() > 0 ) {
+        URL url = toUrl( osgiDevProperty );
+        load( url );
+      }
     }
     return properties;
   }
 
-  private void load( File file ) {
-    InputStream inputStream = openFile( file );
-    if( inputStream != null ) {
-      try {
-        properties.load( inputStream );
-        inputStream.close();
-      } catch( IOException ioe ) {
-        throw new RuntimeException( ioe );
-      }
-    }
-  }
-
-  private File getConfigurationArea() {
-    File result = null;
-    if( bundleContext != null ) {
-      String configurationArea = bundleContext.getProperty( "osgi.configuration.area" );
-      URL url = toUrl( configurationArea );
-      if( url != null && url.getProtocol().equals( "file" ) ) {
-        result = new File( toUri( url ) );
-      }
-    }
-    return result;
-  }
-
-  private static FileInputStream openFile( File file ) {
-    FileInputStream result;
+  private void load( URL url ) {
     try {
-      result = new FileInputStream( file );
-    } catch( FileNotFoundException fnfe ) {
-      result = null;
+      InputStream inputStream = url.openStream();
+      properties.load( inputStream );
+      inputStream.close();
+    } catch( IOException ioe ) {
+      throw new RuntimeException( ioe );
     }
-    return result;
   }
 
   private static URL toUrl( String string ) {
@@ -84,14 +57,6 @@ class DevPropertiesLoader {
       result = null;
     }
     return result;
-  }
-
-  private static URI toUri( URL url ) {
-    try {
-      return url.toURI();
-    } catch( URISyntaxException use ) {
-      throw new RuntimeException( use );
-    }
   }
 
 }
