@@ -80,7 +80,7 @@ public class BundleTestSuite extends Suite {
   private static Class<?>[] getTestClasses( Class<?> type ) throws InitializationError {
     TestBundles bundlesAnnotation = type.getAnnotation( TestBundles.class );
     checkAnnotationExists( type, bundlesAnnotation );
-    return new BundleTestScanner( bundlesAnnotation.value() ).scan();
+    return new TestCollector( bundlesAnnotation.value() ).collect();
   }
 
   private static void checkAnnotationExists( Class<?> type, TestBundles testBundles )
