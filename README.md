@@ -1,4 +1,4 @@
-# Automated OSGi Test Suite
+# Automated OSGi Test Suite [![Build Status](https://travis-ci.org/rherrmann/osgi-testsuite.png)](https://travis-ci.org/rherrmann/osgi-testsuite)
 
 The OSGi Test Suite is a JUnit test runner that lets you specify a list of bundles and runs all tests contained in these bundles. The test runner is provided as a bundle itself so that it can be easily consumed from OSGi projects.
 
@@ -23,7 +23,7 @@ The p2 repository
 contains a feature with a single bundle. Add this to your target platform.
 
 In order to use the BundleTestSuite, Require-Bundle or Package-Import the bundle/package com.codeaffine.osgi.testsuite.
-In addition an implementation of the  OSGi specification [Release 4, Version 4.3](http://www.osgi.org/Release4/Download) (tested with Eclipse Equinox 3.7) and JUnit 4.8 or later is required.
+In addition an implementation of the OSGi specification [Release 4, Version 4.3](http://www.osgi.org/Release4/Download) (tested with Eclipse Equinox 3.7) and JUnit 4.8 or later is required.
 
 ## Lincense
 The code is published under the terms of the [Eclipse Public License, version 1.0](http://www.eclipse.org/legal/epl-v10.html).
