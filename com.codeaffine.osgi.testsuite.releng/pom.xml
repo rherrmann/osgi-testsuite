@@ -40,8 +40,8 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>maven.eclipse.org</id>
-      <url>http://maven.eclipse.org/nexus/content/repositories/milestone-indigo</url>
+      <id>repo.eclipse.org</id>
+      <url>https://repo.eclipse.org/content/repositories/releases/</url>
     </pluginRepository>
   </pluginRepositories>
 
