@@ -48,22 +48,22 @@
   <build>
     <plugins>
 
-			<plugin>
-			   <groupId>org.eclipse.tycho</groupId>
-			   <artifactId>target-platform-configuration</artifactId>
-			   <version>${tycho-version}</version>
-			   <configuration>
-			      <target>
-			         <artifact>
-			            <groupId>com.codeaffine.osgi.testsuite</groupId>
-			            <artifactId>com.codeaffine.osgi.testsuite.parent</artifactId>
+      <plugin>
+         <groupId>org.eclipse.tycho</groupId>
+         <artifactId>target-platform-configuration</artifactId>
+         <version>${tycho-version}</version>
+         <configuration>
+            <target>
+               <artifact>
+                  <groupId>com.codeaffine.osgi.testsuite</groupId>
+                  <artifactId>com.codeaffine.osgi.testsuite.parent</artifactId>
                   <version>1.0.0-SNAPSHOT</version>
                   <classifier>equinox</classifier>
-			         </artifact>
-			      </target>
-			   </configuration>
-			</plugin>
-			
+               </artifact>
+            </target>
+         </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
