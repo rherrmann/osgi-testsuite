@@ -1,3 +1,21 @@
-script:
-  - cd com.codeaffine.osgi.testsuite.releng
-  - mvn clean install
+env:
+  global:
+    secure: "U6A7icfptAFeWsAaCfIlHwZqOsDvgrili1UWd0lzzRMaEWIlefV5ngTZr8g2zrdKDG3NTmiitTWH5XvZW2pI7LA9qF8WL5wcpOmAJIiduZsCQop/R8AbDRNqzbpXYUl/J8j9u5k4RQIc+Z4iYzGZ5JXx/BK6AD7w3AAlR2BOXMM="
+
+language: java
+
+jdk:
+  - openjdk6
+
+branches:
+  only:
+    - master
+
+script: mvn -f com.codeaffine.osgi.testsuite.releng/pom.xml clean verify
+
+after_success: 
+  - chmod a+x .travis-deploy.sh
+  - ./.travis-deploy.sh
+
+after_failure:
+  - cat com.codeaffine.osgi.testsuite.test/target/surefire-reports/*.txt
