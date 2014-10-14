@@ -16,8 +16,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   # setup git and clone from gh-pages branch
   git config --global user.email "travis-deployer@codeaffine.com"
   git config --global user.name "Travis Deployer"
-#  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/osgi-testsuite.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/osgi-testsuite.git . || error_exit "Error cloning gh-pages"
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/rherrmann/osgi-testsuite.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # clean the repository directory, then copy the build result into it
   git rm -rf repository
@@ -27,8 +26,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   # add, commit and push files
   git add -f .
   git commit -m "[ci skip] Deploy Travis build #$TRAVIS_BUILD_NUMBER to gh-pages"
-#  git push -fq origin gh-pages > /dev/null 2>&1 || error_exit "Error uploading the build result to gh-pages"
-  git push -fq origin gh-pages || error_exit "Error uploading the build result to gh-pages"
+  git push -fq origin gh-pages > /dev/null 2>&1 || error_exit "Error uploading the build result to gh-pages"
 
   # go back to the directory where we started
   cd ..
