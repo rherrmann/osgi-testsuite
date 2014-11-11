@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 Rüdiger Herrmann.
+ * Copyright (c) 2012, 2013, 2014 Rüdiger Herrmann.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,9 +7,11 @@
  *
  * Contributors:
  *    Rüdiger Herrmann - initial API and implementation
+ *    Frank Appel - ClassnameFilters
  ******************************************************************************/
 package com.codeaffine.osgi.testuite;
 
+import static com.codeaffine.osgi.testuite.BundleTestSuite.ClassnameFilters.DEFAULT_CLASSNAME_FILTERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -29,22 +31,22 @@ public class TestCollectorTest {
 
   @Test
     public void testCollectWithNonExistingBundle() {
-      String nonExistingBundle = "no.bundle";
-      TestCollector collector = new TestCollector( bundleContext, nonExistingBundle );
+      String[] nonExistingBundle =  { "no.bundle" };
+      TestCollector collector = new TestCollector( bundleContext, nonExistingBundle, DEFAULT_CLASSNAME_FILTERS );
 
       try {
         collector.collect();
         fail();
       } catch( InitializationError expected ) {
-        assertTrue( expected.getCauses().get( 0 ).getMessage().contains( nonExistingBundle ) );
+        assertTrue( expected.getCauses().get( 0 ).getMessage().contains( nonExistingBundle[ 0 ] ) );
       }
     }
 
   @Test
     public void testCollectWithExistingBundle() throws InitializationError {
-      Bundle bundle = createBundle();
+      String[] bundle = { createBundle().getSymbolicName() };
 
-      TestCollector collector = new TestCollector( bundleContext, bundle.getSymbolicName() );
+      TestCollector collector = new TestCollector( bundleContext, bundle, DEFAULT_CLASSNAME_FILTERS );
       Class<?>[] classes = collector.collect();
 
       assertEquals( 0, classes.length );

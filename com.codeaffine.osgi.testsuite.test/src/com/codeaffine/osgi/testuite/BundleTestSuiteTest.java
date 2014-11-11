@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 Rüdiger Herrmann.
+ * Copyright (c) 2012, 2013, 2014 Rüdiger Herrmann.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,16 +7,22 @@
  *
  * Contributors:
  *    Rüdiger Herrmann - initial API and implementation
+ *    Frank Appel - ClassnameFilters
  ******************************************************************************/
 package com.codeaffine.osgi.testuite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Constructor;
+import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
 import org.junit.runners.model.InitializationError;
 
+import com.codeaffine.osgi.testuite.BundleTestSuite.ClassnameFilters;
 import com.codeaffine.osgi.testuite.BundleTestSuite.TestBundles;
 
 public class BundleTestSuiteTest {
@@ -38,6 +44,13 @@ public class BundleTestSuiteTest {
   }
 
   @Test
+  public void testConstructorWithValidPatternSuite() throws InitializationError {
+    BundleTestSuite bundleTestSuite = new BundleTestSuite( ValidPatternTestSuite.class );
+
+    assertEquals( ValidPatternTestSuite.class, bundleTestSuite.getTestClass().getJavaClass() );
+  }
+
+  @Test
   public void testConstructorWithInvalidSuite() throws Exception {
     try {
       new BundleTestSuite( InvalidBundleTestSuite.class );
@@ -48,12 +61,22 @@ public class BundleTestSuiteTest {
     }
   }
 
+  @Test
+  public void testConstructorWithInvalidPatternSuite() throws Exception {
+    try {
+      new BundleTestSuite( InvalidPatternTestSuite.class );
+      fail();
+    } catch( PatternSyntaxException expected ) {
+    }
+  }
+
+  public static class InvalidBundleTestSuite {}
   @TestBundles({})
-  public static class EmptyBundleTestSuite {
-  }
-
-  public static class InvalidBundleTestSuite {
-
-  }
-
+  public static class EmptyBundleTestSuite {}
+  @TestBundles( {} )
+  @ClassnameFilters( { "*" } )
+  public static class InvalidPatternTestSuite {}
+  @TestBundles( {} )
+  @ClassnameFilters( { ".*Foo" } )
+  public static class ValidPatternTestSuite {}
 }

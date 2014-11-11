@@ -12,7 +12,7 @@
 <feature
       id="com.codeaffine.osgi.testsuite.feature"
       label="Automated OSGi Test Suite"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="Codeaffine.com">
 
    <description url="">
@@ -25,7 +25,7 @@
    </description>
 
    <copyright>
-      Copyright 2013 Rüdiger Herrmann
+      Copyright 2013, 2014 Rüdiger Herrmann
    </copyright>
 
    <license url="license.html">

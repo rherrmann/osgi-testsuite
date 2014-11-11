@@ -5,7 +5,7 @@ The OSGi Test Suite is a JUnit test runner that lets you specify a list of bundl
 ## Usage
 Annotate a class with `@RunWith(BundleTestSuite.class)` and `@TestBundles({"bundle.1", ...})`. 
 When you run this class, it will run all the tests in all the bundles.
-A test class is identified by its name. All public classes whose names end with 'Test' are considered test classes.
+A test class is identified by its name. By default all public classes whose names end with 'Test' are considered test classes.
 
 For example:
 ````Java
@@ -14,6 +14,23 @@ For example:
 public class MasterTestSuite {
 }
 ````
+
+A mechanism for selection of test classes to run is provided by the `@ClassnameFilters({"filterExpression", ...})` annotation. It
+uses regular expressions to match test name patterns.
+
+For Example:
+````Java
+@RunWith( BundleTestSuite.class )
+@TestBundles( { "org.example.bundle1", "org.example.bundle2" } )
+@ClassnameFilters( { ".*IntegrationTest", "!.*FooIntegrationTest" } )
+public class IntegrationTestSuite {
+}
+````
+
+The example runs all test cases in bundle1 and bundle2 that are named with the postfix `IntegrationTest`
+but exclude those with the postfix `FooIntegrationTest`.
+
+
 
 ## Download & Integration
 The p2 repository

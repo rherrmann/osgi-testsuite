@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 Rüdiger Herrmann.
+ * Copyright (c) 2012, 2013, 2014 Rüdiger Herrmann.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    Rüdiger Herrmann - initial API and implementation
+ *    Frank Appel - ClassnameFilters
  ******************************************************************************/
 package com.codeaffine.osgi.testuite;
 
@@ -24,17 +25,18 @@ import org.osgi.framework.wiring.BundleWiring;
 
 
 class ClassPathScanner {
+
   private static final String DOT_CLASS = ".class";
 
-  private final Bundle bundle;
+  private ClassnameFilter classnameFilter;
   private final Properties devProperties;
-  private final String pattern;
   private final Set<Class<?>> classes;
+  private final Bundle bundle;
 
-  ClassPathScanner( Bundle bundle, Properties devProperties, String pattern ) {
+  ClassPathScanner( Bundle bundle, Properties devProperties, ClassnameFilter classnameFilter ) {
     this.bundle = bundle;
     this.devProperties = devProperties;
-    this.pattern = pattern;
+    this.classnameFilter = classnameFilter;
     this.classes = new HashSet<Class<?>>();
   }
 
@@ -57,14 +59,16 @@ class ClassPathScanner {
   private Collection<String> listResources( String classPathRoot ) {
     BundleWiring bundleWiring = bundle.adapt( BundleWiring.class );
     int options = BundleWiring.LISTRESOURCES_LOCAL | BundleWiring.LISTRESOURCES_RECURSE;
-    return bundleWiring.listResources( classPathRoot, pattern, options );
+    return bundleWiring.listResources( classPathRoot, "*" + DOT_CLASS, options );
   }
 
   private void loadClasses( Collection<String> resources ) throws InitializationError {
     for( String resource : resources ) {
       String className = toClassName( stripClassPathRoot( resource ) );
-      Class<?> loadedClass = loadClass( className );
-      classes.add( loadedClass );
+      if( classnameFilter.accept( className ) ) {
+        Class<?> loadedClass = loadClass( className );
+        classes.add( loadedClass );
+      }
     }
   }
 

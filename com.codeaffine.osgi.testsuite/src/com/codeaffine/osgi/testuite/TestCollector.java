@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 Rüdiger Herrmann.
+ * Copyright (c) 2012, 2013, 2014 Rüdiger Herrmann.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,9 @@
  *
  * Contributors:
  *    Rüdiger Herrmann - initial API and implementation
+ *    Frank Appel - ClassnameFilters
  ******************************************************************************/
+
 package com.codeaffine.osgi.testuite;
 
 import java.util.Arrays;
@@ -22,18 +24,20 @@ import org.osgi.framework.FrameworkUtil;
 
 
 class TestCollector {
+  private final ClassnameFilter classnameFilter;
   private final String[] bundleSymbolicNames;
   private final BundleContext bundleContext;
   private final Set<Class<?>> classes;
   private final Properties devProperties;
 
-  TestCollector( String... bundleSymbolicNames ) {
-    this( getBundleContext(), bundleSymbolicNames );
+  TestCollector( String[] bundleSymbolicNames, String[] filterPatterns ) {
+    this( getBundleContext(), bundleSymbolicNames, filterPatterns );
   }
 
-  TestCollector( BundleContext bundleContext, String... bundleSymbolicNames ) {
+  TestCollector( BundleContext bundleContext, String[] bundleSymbolicNames, String[] filterPatterns  ) {
     this.bundleContext = bundleContext;
     this.bundleSymbolicNames = bundleSymbolicNames;
+    this.classnameFilter = new ClassnameFilter( filterPatterns );
     this.classes = new HashSet<Class<?>>();
     this.devProperties = new DevPropertiesLoader( bundleContext ).load();
   }
@@ -47,7 +51,7 @@ class TestCollector {
 
   private void collect( String bundleSymbolicName ) throws InitializationError {
     Bundle bundle = getBundle( bundleSymbolicName );
-    Class<?>[] scan = new ClassPathScanner( bundle, devProperties, "*Test.class" ).scan();
+    Class<?>[] scan = new ClassPathScanner( bundle, devProperties, classnameFilter ).scan();
     classes.addAll( Arrays.asList( scan ) );
   }
 
