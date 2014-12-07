@@ -14,9 +14,9 @@ For example:
 public class MasterTestSuite {
 }
 ````
+The `MasterTestSuite` will execute all '*Test' classes from bundle1 and bundle2.
 
-A mechanism for selection of test classes to run is provided by the `@ClassnameFilters({"filterExpression", ...})` annotation. It
-uses regular expressions to match test name patterns.
+If the default strategy to identify test classes is not suitable, it can be overridden with the  `@ClassnameFilters({"filterExpression", ...})` annotation. The list of regular expressions is used match test class names that should be included and excluded.
 
 For Example:
 ````Java
