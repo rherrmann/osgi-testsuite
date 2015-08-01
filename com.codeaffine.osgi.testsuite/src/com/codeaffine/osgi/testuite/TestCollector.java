@@ -9,7 +9,6 @@
  *    Rüdiger Herrmann - initial API and implementation
  *    Frank Appel - ClassnameFilters
  ******************************************************************************/
-
 package com.codeaffine.osgi.testuite;
 
 import java.util.Arrays;

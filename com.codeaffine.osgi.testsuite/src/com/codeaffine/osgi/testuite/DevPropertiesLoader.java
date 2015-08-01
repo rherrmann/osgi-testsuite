@@ -8,7 +8,6 @@
  * Contributors:
  *    Rüdiger Herrmann - initial API and implementation
  ******************************************************************************/
-
 package com.codeaffine.osgi.testuite;
 
 import java.io.IOException;
