@@ -2,6 +2,8 @@ env:
   global:
     secure: "XSDqVEb9qwXDpifbNaFL+iEXnMpdHp+IW2/i11QmCPmPY/CtTv1UDqq32q6mV65Pbdlynsoia8Ld1Rt/6j8JbRZEHKF6LlKfeLCSMa1yOE38lSHAJ33eQ1aAUepqmA/Ex8UBpSlyVQXaO76hjQYCYKOsvx6L07CpCFRzUPJ1Vkg="
 
+sudo: false
+
 language: java
 
 jdk:
