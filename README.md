@@ -27,10 +27,20 @@ For Example:
 public class IntegrationTestSuite {
 }
 ````
-
 The example runs all test cases in bundle1 and bundle2 that are named with the postfix `IntegrationTest`
 but exclude those with the postfix `FooIntegrationTest`.
 
+Optionally, a _no match policy_ can be defined that determines what happens if no test classes can be found in one or more of the specified bundles. Available choices are `IGNORE` (do nothing), `WARN` (write a message to the console), and `FAIL` (abort test execution by throwing an exception).
+
+For example:
+````Java
+@RunWith( BundleTestSuite.class )
+@TestBundles( value = "org.example.bundle", noMatchPolicy = NoMatchPolicy.FAIL )
+public class MasterTestSuite {
+}
+````
+
+In order to remain backward compatibility with previous versions, the default value is `IGNORE`.
 
 ## Download & Integration
 The p2 repository
