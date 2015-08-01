@@ -11,9 +11,7 @@
  ******************************************************************************/
 package com.codeaffine.osgi.testuite;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -101,6 +99,15 @@ public class ClassPathScannerTest {
     } catch( InitializationError expected ) {
       assertEquals( classNotFoundException, expected.getCauses().get( 0 ) );
     }
+  }
+
+  @Test
+  public void testScanWithEmptyBundle() throws InitializationError {
+    ClassPathScanner scanner = new ClassPathScanner( bundle, devProperties, classnameFilter );
+
+    Class<?>[] classes = scanner.scan();
+
+    assertEquals( 0, classes.length );
   }
 
   @Before
