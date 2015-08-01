@@ -30,27 +30,27 @@ public class TestCollectorTest {
   private BundleContext bundleContext;
 
   @Test
-    public void testCollectWithNonExistingBundle() {
-      String[] nonExistingBundle =  { "no.bundle" };
-      TestCollector collector = new TestCollector( bundleContext, nonExistingBundle, DEFAULT_CLASSNAME_FILTERS );
+  public void testCollectWithNonExistingBundle() {
+    String[] nonExistingBundle =  { "no.bundle" };
+    TestCollector collector = new TestCollector( bundleContext, nonExistingBundle, DEFAULT_CLASSNAME_FILTERS );
 
-      try {
-        collector.collect();
-        fail();
-      } catch( InitializationError expected ) {
-        assertTrue( expected.getCauses().get( 0 ).getMessage().contains( nonExistingBundle[ 0 ] ) );
-      }
+    try {
+      collector.collect();
+      fail();
+    } catch( InitializationError expected ) {
+      assertTrue( expected.getCauses().get( 0 ).getMessage().contains( nonExistingBundle[ 0 ] ) );
     }
+  }
 
   @Test
-    public void testCollectWithExistingBundle() throws InitializationError {
-      String[] bundle = { createBundle().getSymbolicName() };
+  public void testCollectWithExistingBundle() throws InitializationError {
+    String[] bundle = { createBundle().getSymbolicName() };
 
-      TestCollector collector = new TestCollector( bundleContext, bundle, DEFAULT_CLASSNAME_FILTERS );
-      Class<?>[] classes = collector.collect();
+    TestCollector collector = new TestCollector( bundleContext, bundle, DEFAULT_CLASSNAME_FILTERS );
+    Class<?>[] classes = collector.collect();
 
-      assertEquals( 0, classes.length );
-    }
+    assertEquals( 0, classes.length );
+  }
 
   @Before
   public void setUp() {
