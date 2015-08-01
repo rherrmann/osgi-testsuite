@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?>
-
-<target name="Target components for OSGi Test Suite" sequenceNumber="38">
+<?pde version="3.8"?><target name="Target components for OSGi Test Suite" sequenceNumber="41">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.mockito.feature.feature.group" version="1.8.4.201201101616"/>
-<repository location="http://rherrmann.github.com/com.codeaffine.archive/mockito-1.8.4/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.8.0.v20121212-203907-7M7fA78g4_y-edvtH0ZcEC5NOFTB"/>
+<unit id="org.eclipse.platform.sdk" version="3.8.2.M20130131-0800"/>
 <repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.junit" version="4.11.0.v201303080030"/>
 <unit id="org.junit.source" version="4.11.0.v201303080030"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201502171553"/>
+<repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
