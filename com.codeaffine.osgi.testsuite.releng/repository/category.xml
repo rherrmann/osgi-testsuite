@@ -11,9 +11,9 @@
 -->
 <site>
    <feature 
-       url="../features/com.codeaffine.osgi.testsuite.feature_1.1.0.qualifier.jar" 
+       url="../features/com.codeaffine.osgi.testsuite.feature_1.2.0.qualifier.jar" 
        id="com.codeaffine.osgi.testsuite.feature" 
-       version="1.1.0.qualifier">
+       version="1.2.0.qualifier">
       <category name="com.codeaffine.osgi.testsuite.category"/>
    </feature>
    <category-def name="com.codeaffine.osgi.testsuite.category" label="Automated OSGi Test Suite"/>

@@ -12,7 +12,7 @@
 <feature
       id="com.codeaffine.osgi.testsuite.feature"
       label="Automated OSGi Test Suite"
-      version="1.1.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="Codeaffine.com">
 
    <description url="">

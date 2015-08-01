@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013, 2014 Rüdiger Herrmann.
+ * Copyright (c) 2012, 2015 Rüdiger Herrmann.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package com.codeaffine.osgi.testuite;
 
 import static com.codeaffine.osgi.testuite.BundleTestSuite.ClassnameFilters.DEFAULT_CLASSNAME_FILTERS;
+import static com.codeaffine.osgi.testuite.BundleTestSuite.NoMatchPolicy.IGNORE;
 import static java.lang.String.format;
 
 import java.lang.annotation.ElementType;
@@ -25,14 +26,19 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+
+import com.codeaffine.osgi.testuite.internal.TestCollector;
 
 /**
  * The BundleTestSuite test runner can be used to run all tests within a given number of OSGi
  * bundles.
  * <p>
  * To use it, annotate a class with <code>@RunWith(BundleTestSuite.class)</code> and
- * <code>@TestBundles({"bundle.1", ...})</code>.  When you run this class, it will run all the
- * tests named with a <code>Test</code> postfix in all the bundles.
+ * <code>@TestBundles({"bundle.1", ...})</code>.  When this test suite is run, it will execute all
+ * tests whose name end with <code>Test</code> in all given bundles.
  * </p>
  * <p>
  * Example:
@@ -45,14 +51,9 @@ import org.junit.runners.model.InitializationError;
  * </p>
  *
  * <p>
- * An <code>InitializationError</code> is thrown if the <code>@TestBundles</code> annotation is
- * missing or if it list bundles that cannot be found.
- * </p>
- *
- * <p>
  * A filtering mechanism for selecting test cases to run is provided by the
  * <code>@ClassnameFilters({"filterExpression", ...})</code> annotation. It
- *  uses regular expressions to match test name patterns.
+ * uses regular expressions to match test name patterns.
  * </p>
  * <p>
  * Example:
@@ -67,11 +68,42 @@ import org.junit.runners.model.InitializationError;
  * but exclude those with the postfix <code>FooIntegrationTest</code>.
  * </p>
  *
+ * <p>
+ * An <code>InitializationError</code> is thrown if the <code>@TestBundles</code> annotation is
+ * missing or if it lists bundles that cannot be found.
+ * </p>
+ *
  * @see RunWith
  * @see TestBundles
  * @since 1.0
  */
 public class BundleTestSuite extends Suite {
+
+  /**
+   * This policy defines how bundles that contain no matching tests are treated.
+   * <p>
+   * Bundles are considered to contain no tests if none of the contained classes match any of the
+   * classname filters.
+   * </p>
+   *
+   * @since 1.2
+   */
+  public enum NoMatchPolicy {
+    /**
+     * Ignore bundles that do not contain any (matching) tests.
+     */
+    IGNORE,
+
+    /**
+     * If no (matching) tests can be found, write a message to the console.
+     */
+    WARN,
+
+    /**
+     * Raise an exception if not tests can be found.
+     */
+    FAIL
+  }
 
   /**
    * The <code>TestBundles</code> annotation specifies the bundles to be scanned for test classes
@@ -88,6 +120,14 @@ public class BundleTestSuite extends Suite {
      * @return the synblic names of the bundles that should be scanned for tests
      */
     String[] value();
+
+    /**
+     * @return the policy that determines how bundles without matching tests are treated
+     *
+     * @see NoMatchPolicy
+     * @since 1.2
+     */
+    NoMatchPolicy noMatchPolicy() default IGNORE;
   }
 
   /**
@@ -105,11 +145,10 @@ public class BundleTestSuite extends Suite {
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
   public @interface ClassnameFilters {
-    static final String[] DEFAULT_CLASSNAME_FILTERS = new String[] { ".*Test" };
+    String[] DEFAULT_CLASSNAME_FILTERS = new String[] { ".*Test" };
 
     public String[] value() default { ".*Test" };
   }
-
 
   public BundleTestSuite( Class<?> type ) throws InitializationError {
     super( type, getTestClasses( type ) );
@@ -123,7 +162,8 @@ public class BundleTestSuite extends Suite {
   private static Class<?>[] getTestClasses( Class<?> type ) throws InitializationError {
     TestBundles bundlesAnnotation = type.getAnnotation( TestBundles.class );
     checkAnnotationExists( type, bundlesAnnotation );
-    return new TestCollector( bundlesAnnotation.value(), readFilterPatterns( type ) ).collect();
+    String[] filterPatterns = readFilterPatterns( type );
+    return new TestCollector( System.out, getBundleContext(), bundlesAnnotation, filterPatterns ).collect();
   }
 
   private static void checkAnnotationExists( Class<?> type, TestBundles testBundles )
@@ -149,4 +189,10 @@ public class BundleTestSuite extends Suite {
       Pattern.compile( pattern );
     }
   }
+
+  private static BundleContext getBundleContext() {
+    Bundle bundle = FrameworkUtil.getBundle( BundleTestSuite.class );
+    return bundle == null ? null : bundle.getBundleContext();
+  }
+
 }
