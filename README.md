@@ -1,4 +1,7 @@
-# Automated OSGi Test Suite [![Build Status](https://travis-ci.org/rherrmann/osgi-testsuite.png)](https://travis-ci.org/rherrmann/osgi-testsuite)
+# Automated OSGi Test Suite 
+[![Build Status](https://img.shields.io/travis/rherrmann/osgi-testsuite.svg)](https://travis-ci.org/rherrmann/osgi-testsuite)
+[![Version](https://img.shields.io/badge/version-1.2-lightgrey.svg)](http://rherrmann.github.io/osgi-testsuite/repository/)
+[![EPL licensed](https://img.shields.io/badge/license-EPL-blue.svg)](https://raw.githubusercontent.com/rherrmann/eclipse-extras/master/LICENSE)
 
 The OSGi Test Suite is a JUnit test runner that lets you specify a list of bundles and runs all tests contained in these bundles. The test runner is provided as a bundle itself so that it can be easily consumed from OSGi projects.
 
