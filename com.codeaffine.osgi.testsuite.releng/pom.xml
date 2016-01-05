@@ -22,9 +22,11 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>0.22.0</tycho-version>
-    <surefire-version>2.18</surefire-version>
+    <tycho-version>0.23.0</tycho-version>
+    <tycho-extras-version>0.23.0</tycho-extras-version>
+    <surefire-version>2.19</surefire-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tycho.scmUrl>scm:git:https://github.com/rherrmann/osgi-testsuite.git</tycho.scmUrl>
   </properties>
 
   <prerequisites>
@@ -75,8 +77,18 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
         <version>${tycho-version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-sourceref-jgit</artifactId>
+            <version>${tycho-extras-version}</version>
+          </dependency>
+        </dependencies>        
         <configuration>
           <format>yyyyMMdd-HHmm</format>
+          <sourceReferences>
+            <generate>true</generate>
+          </sourceReferences>
         </configuration>
       </plugin>
 

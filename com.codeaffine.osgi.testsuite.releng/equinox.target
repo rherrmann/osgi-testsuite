@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Target components for OSGi Test Suite" sequenceNumber="41">
+<?pde version="3.8"?><target name="Target components for OSGi Test Suite" sequenceNumber="42">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="3.8.2.M20130131-0800"/>
@@ -11,7 +11,7 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201502171553"/>
+<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201508012258"/>
 <repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 </locations>
