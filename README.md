@@ -53,7 +53,7 @@ The p2 repository
 contains a feature with a single bundle. Add this to your target platform.
 
 In order to use the BundleTestSuite, Require-Bundle or Package-Import the bundle/package com.codeaffine.osgi.testsuite.
-In addition an implementation of the OSGi specification [Release 4, Version 4.3](http://www.osgi.org/Release4/Download) (tested with Eclipse Equinox 3.7), JUnit 4.8 or later, and a JRE version 1.5 or later is required.
+In addition an implementation of the OSGi specification [Release 5](https://www.osgi.org/developer/downloads/) (tested with Eclipse Equinox 3.8), JUnit 4.8 or later, and a JRE version 1.5 or later is required.
 
 
 ## Lincense
