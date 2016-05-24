@@ -9,21 +9,167 @@
   Contributors:
      Rüdiger Herrmann - initial implementation
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.codeaffine.osgi.testsuite</groupId>
-  <artifactId>com.codeaffine.osgi.testsuite</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+	<groupId>com.codeaffine.osgi.testsuite</groupId>
+	<artifactId>com.codeaffine.osgi.testsuite</artifactId>
+	<version>1.2.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <parent>
-    <groupId>com.codeaffine.osgi.testsuite</groupId>
-    <artifactId>com.codeaffine.osgi.testsuite.parent</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
-    <relativePath>../com.codeaffine.osgi.testsuite.releng/pom.xml</relativePath>
-  </parent>
+	<licenses>
+		<license>
+			<name>Eclipse Public License - Version 1</name>
+			<url>https://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
 
+	<developers>
+		<developer>
+			<name>Rüdiger Herrmann</name>
+			<email>rherrmann@codeaffine.com</email>
+			<organization>codeaffine</organization>
+			<organizationUrl>http://codeaffine.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Frank Appel</name>
+			<email>fappel@codeaffine.com</email>
+			<organization>codeaffine</organization>
+			<organizationUrl>http://codeaffine.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:rherrmann/osgi-testsuite.git</connection>
+		<developerConnection>scm:git:git@github.com:rherrmann/osgi-testsuite.git</developerConnection>
+		<url>git@github.com:rherrmann/osgi-testsuite.git</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.9.0.v20130529-1710</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<archive>
+						<manifestFile>./META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.6</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>oss.sonatype.org</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+				</configuration>
+				<executions>
+					<execution>
+						<id>deploy-to-sonatype</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+							<goal>release</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

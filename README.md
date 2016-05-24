@@ -46,11 +46,9 @@ public class MasterTestSuite {
 In order to remain backward compatibility with previous versions, the default value is `IGNORE`.
 
 ## Download & Integration
-The p2 repository
+Maven Central
 
-> `http://rherrmann.github.io/osgi-testsuite/repository`
-
-contains a feature with a single bundle. Add this to your target platform.
+> `Yet to release`
 
 In order to use the BundleTestSuite, Require-Bundle or Package-Import the bundle/package com.codeaffine.osgi.testsuite.
 In addition an implementation of the OSGi specification [Release 5](https://www.osgi.org/developer/downloads/) (tested with Eclipse Equinox 3.8), JUnit 4.8 or later, and a JRE version 1.5 or later is required.
